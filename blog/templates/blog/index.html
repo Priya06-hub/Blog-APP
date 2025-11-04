@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body style="background-color: rgb(88, 85, 85);color: wheat;">
+  
+<h1 style="color: wheat;">Blog Posts</h1>
+{% if user.is_authenticated %}
+  <a href="{% url 'create_post' %}", style="color: wheat;">Create New Post</a><br><br>
+  <a href="{% url 'logout' %}" ,style="color: wheat;">Logout</a><br><br>
+{% else %}
+  <a href="{% url 'login' %}", style="color: wheat;">Login</a><br><br>
+  <a href="{% url 'register' %}", style="color: wheat;">Register</a><br><br>
+{% endif %}
+
+<ul style="border: 2px; padding: 10px; background-color:lightgrey;color:darkslategray;box-sizing: border-box;">
+  {% for post in posts %}
+    <li>
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.content }}</p>
+      <p>By {{ post.author }} on {{ post.created_at }}</p>
+      {% if user == post.author %}
+        <a href="{% url 'edit_post' post.id %}",style="color:darkslategray">Edit</a>
+        <a href="{% url 'delete_post' post.id %}",style="color:darkslategray">Delete</a><br><br>
+        <!-- <a href="{}" -->
+      {% endif %}
+    </li>
+    {% empty %}
+    <br><br>
+    <p>No blog posts yet!</p>
+  {% endfor %}
+</ul>
+
+
+</body>
+</html>
